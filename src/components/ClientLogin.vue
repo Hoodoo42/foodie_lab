@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import axios from 'axios'
-import cookies from 'vue-cookies'
+import axios from "axios";
+import cookies from "vue-cookies";
 export default {
   methods: {
     login_button() {
@@ -22,27 +22,25 @@ export default {
           headers: {
             "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
           },
-          method : 'POST',
+          method: "POST",
 
-          data:{
-                email: this.$refs[`email`][`value`],
-                password: this.$refs[`password`][`value`]
-            }
-          
+          data: {
+            email: this.$refs[`email`][`value`],
+            password: this.$refs[`password`][`value`],
+          },
         })
 
         .then((res) => {
-           res;
+          res;
           cookies.set(`user_token`, res[`data`][`token`]);
           this.$router.push(`/list`);
         })
         .catch((err) => {
           err;
         });
-  }
     },
-  }
-
+  },
+};
 </script>
 
 <style lang="scss" scoped>

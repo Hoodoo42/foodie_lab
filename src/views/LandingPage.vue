@@ -18,19 +18,19 @@
       <button>Login</button>
       <button>Sign Up</button>
     </div>
-    <login-view v-if="login"></login-view>
-    <sign-up v-if="sign_up"></sign-up>
+    <client-login v-if="login"></client-login>
+    <client-sign-up v-if="sign_up"></client-sign-up>
   </div>
 </template>
 
 <script>
-import SignUp from "@/components/SignUp.vue";
-import LoginView from "@/components/LoginView.vue";
+import ClientSignUp from "@/components/ClientSignUp.vue";
+import ClientLogin from "@/components/ClientLogin.vue";
 
 export default {
   components: {
-    SignUp,
-    LoginView,
+    ClientSignUp,
+    ClientLogin,
   },
   //   variable holding the condtionals that will define which options are displayed for the user.
   data() {
