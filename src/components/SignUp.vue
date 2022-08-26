@@ -52,7 +52,7 @@ export default {
         })
         .then((res) => {
           res;
-          cookies.set(`user_token`, this.res[`data`][`token`]);
+          cookies.set(`user_token`, res[`data`][`token`]);
           this.$router.push(`/list`);
         })
         .catch((err) => {
