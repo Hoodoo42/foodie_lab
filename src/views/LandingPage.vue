@@ -10,20 +10,16 @@
     <br />
     <!-- if foodie button is clicked client side login and signup buttons appear -->
     <div v-if="foodie">
-      <button ref="foodie_side_login" @click="open_login_view">
-        Client Login
-      </button>
-      <button ref="foodie_side_signup" @click="open_sign_up">
-        Client Sign Up
-      </button>
+      <button @click="open_login">Client Login</button>
+      <button @click="open_sign_up">Client Sign Up</button>
     </div>
     <!-- else the restaurant login and sign up buttons will show -->
     <div v-else>
-      <button ref="feeder_side_login">Login</button>
-      <button ref="feeder_side_signup">Sign Up</button>
+      <button>Login</button>
+      <button>Sign Up</button>
     </div>
-    <login-view></login-view>
-    <sign-up></sign-up>
+    <login-view v-if="login"></login-view>
+    <sign-up v-if="sign_up"></sign-up>
   </div>
 </template>
 
@@ -36,10 +32,12 @@ export default {
     SignUp,
     LoginView,
   },
-  //   variable holding the condtional that will define which login and signup buttons appear on the page.
+  //   variable holding the condtionals that will define which options are displayed for the user.
   data() {
     return {
       foodie: true,
+      login: undefined,
+      sign_up: undefined,
     };
   },
 
@@ -50,6 +48,16 @@ export default {
 
     feeder_side() {
       this.foodie = false;
+    },
+
+    open_login() {
+      this.login = true;
+      this.sign_up = false;
+    },
+
+    open_sign_up() {
+      this.sign_up = true;
+      this.login = false;
     },
   },
 };
