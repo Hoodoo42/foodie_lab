@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 
 import LandingPage from "@/views/LandingPage";
 import RestaurantList from "@/views/RestaurantList";
+import RestaurantHome from "@/views/RestaurantHome"
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -14,6 +16,10 @@ const routes = [
     path: "/list",
     component: RestaurantList,
   },
+  {
+    path: "/Restaurant",
+    component: RestaurantHome
+  }
 ];
 
 const router = new VueRouter({

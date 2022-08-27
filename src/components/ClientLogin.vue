@@ -6,7 +6,7 @@
     <label for="password">Password:</label>
     <input ref="password" type="password" name="password" /> <br />
 
-    <button @click="login_button">Login</button>
+    <button @click="login_button">Client Login</button>
   </div>
 </template>
 
@@ -32,7 +32,7 @@ export default {
 
         .then((res) => {
           res;
-          cookies.set(`user_token`, res[`data`][`token`]);
+          cookies.set(`client_token`, res[`data`][`token`]);
           this.$router.push(`/list`);
         })
         .catch((err) => {

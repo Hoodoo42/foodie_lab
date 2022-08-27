@@ -21,7 +21,7 @@
       <label for="profile_pic">Profile Picture:</label>
       <input ref="profile_pic" type="url" name="profile_pic" />
     </article>
-    <button @click="signup_button">Sign Up</button>
+    <button @click="signup_button">Client Sign Up</button>
   </div>
 </template>
 
@@ -52,7 +52,8 @@ export default {
         })
         .then((res) => {
           res;
-          cookies.set(`user_token`, res[`data`][`token`]);
+          // cookies.set will name the cookie and hold the token value provided from the axios request
+          cookies.set(`client_token`, res[`data`][`token`]);
           this.$router.push(`/list`);
         })
         .catch((err) => {

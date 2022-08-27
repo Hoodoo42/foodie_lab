@@ -1,8 +1,8 @@
-// this holds the signup for for restaurants
-
 <template>
   <div>
-    <article>
+    <button @click="access_profile">Profile</button>
+
+    <div v-if="profile_accessed">
       <label for="name">Name:</label>
       <input ref="name" type="name" name="name" />
 
@@ -11,7 +11,8 @@
 
       <!-- string in the form of ###-###-#### -->
       <label for="phone_number">Phone Number:</label>
-      <input ref="phone_number" type="tel" name="phone_number" /> <br />
+      <input ref="phone_number" type="number" name="phone_number" />
+      <br />
 
       <label for="bio">Bio:</label>
       <input ref="bio" type="text" name="bio" /> <br />
@@ -30,48 +31,40 @@
       <input ref="banner" type="url" name="banner" />
 
       <label for="password">Password:</label>
-      <input ref="password" type="password" name="password" /> <br />
-    </article>
-    <button @click="restaurant_signup_button">Restaurant SignUp</button>
+      <input ref="password" type="password" name="password" />
+      <br />
+    </div>
   </div>
 </template>
 
 <script>
-// before using axios, must first import it into the component
 import axios from "axios";
 import cookies from "vue-cookies";
-
 export default {
+  data() {
+    return {
+      profile_accessed: undefined,
+    };
+  },
+
   methods: {
-    restaurant_signup_button() {
+    access_profile() {
+      this.profile_accessed = true;
+
+      let access_id = cookies.get(`restaurant_id`);
+
       axios
         .request({
-          url: ` https://innotechfoodie.ml/api/restaurant`,
-
+          url: `https://innotechfoodie.ml/api/restaurant`,
+          params: {
+            restaurant_id: access_id,
+          },
           headers: {
             "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
-          },
-
-          method: `POST`,
-          // in vue, we grab the values from the signup form in the html with refs. This pulls in the information the user has entered.
-          data: {
-            email: this.$refs[`email`][`value`],
-            name: this.$refs[`name`][`value`],
-            bio: this.$refs[`bio`][`value`],
-            address: this.$refs[`address`][`value`],
-            city: this.$refs[`city`][`value`],
-            phone_number: this.$refs[`phone_number`][`value`],
-            profile_url: this.$refs[`profile_pic`][`value`],
-            banner_url: this.$refs[`banner`][`value`],
-            password: this.$refs[`password`][`value`],
           },
         })
         .then((res) => {
           res;
-          cookies.set(`restuarant_token`, res[`data`][`token`]);
-          cookies.set(`restaurant_id`, res[`data`][`restaurantId`]);
-
-          this.$router.push(`/Restaurant`);
         })
         .catch((err) => {
           err;
