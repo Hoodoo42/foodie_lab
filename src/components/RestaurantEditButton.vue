@@ -18,7 +18,7 @@ export default {
             "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
           },
           method: `PATCH`,
-
+// send this token -----
           token: access_token,
         })
         .then((res) => {
