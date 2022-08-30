@@ -68,7 +68,7 @@
         />
         <br />
       </article>
-      <!-- <button @click="edit_button">Edit</button> -->
+   <restaurant-edit-button></restaurant-edit-button>
     </div>
   </div>
 </template>
@@ -76,7 +76,14 @@
 <script>
 import axios from "axios";
 import cookies from "vue-cookies";
+
+import RestaurantEditButton from "@/components/RestaurantEditButton.vue"
 export default {
+
+components: {
+    RestaurantEditButton
+  },
+
   data() {
     return {
       profile_accessed: undefined,
