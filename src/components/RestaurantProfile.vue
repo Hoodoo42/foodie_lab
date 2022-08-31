@@ -43,20 +43,20 @@
         <input ref="city" type="text" name="city" :value="profile[`city`]" />
         <br />
 
-        <label for="profile_pic">Profile Picture:</label>
+        <label for="profile">Profile Picture:</label>
         <input
-          ref="profile_pic"
+          ref="profile_url"
           type="url"
           name="profile_pic"
-          :value="profile[`profile_pic`]"
+          :value="profile[`profile_url`]"
         />
 
         <label for="banner">Banner:</label>
         <input
-          ref="banner"
+          ref="banner_url"
           type="url"
           name="banner"
-          :value="profile[`banner`]"
+          :value="profile[`banner_url`]"
         />
 
         <label for="password">Password:</label>
@@ -68,7 +68,7 @@
         />
         <br />
       </article>
-   <restaurant-edit-button></restaurant-edit-button>
+      <button @click="edit_button">Edit Profile</button>
     </div>
   </div>
 </template>
@@ -77,13 +77,7 @@
 import axios from "axios";
 import cookies from "vue-cookies";
 
-import RestaurantEditButton from "@/components/RestaurantEditButton.vue"
 export default {
-
-components: {
-    RestaurantEditButton
-  },
-
   data() {
     return {
       profile_accessed: undefined,
@@ -111,6 +105,38 @@ components: {
         .then((res) => {
           res;
           this.profile = res[`data`][0];
+        })
+        .catch((err) => {
+          err;
+        });
+    },
+
+    edit_button() {
+      let access_token = cookies.get(`restaurant_token`);
+      axios
+        .request({
+          url: `https://innotechfoodie.ml/api/restaurant`,
+          headers: {
+            "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
+            token: access_token,
+          },
+          method: `PATCH`,
+
+          data: {
+            email: this.$refs[`email`][`value`],
+            name: this.$refs[`name`][`value`],
+            bio: this.$refs[`bio`][`value`],
+            address: this.$refs[`address`][`value`],
+            city: this.$refs[`city`][`value`],
+            phone_number: this.$refs[`phone_number`][`value`],
+            profile_url: this.$refs[`profile_url`][`value`],
+            banner_url: this.$refs[`banner_url`][`value`],
+           
+          },
+        })
+        .then((res) => {
+          res;
+          alert(`Success`)
         })
         .catch((err) => {
           err;
