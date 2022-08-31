@@ -1,6 +1,7 @@
 <template>
   <div>
     <button @click="access_profile">Profile</button>
+    <restaurant-menu></restaurant-menu>
 
     <div v-if="profile_accessed">
       <article>
@@ -77,7 +78,13 @@
 import axios from "axios";
 import cookies from "vue-cookies";
 
+import RestaurantMenu from "@/components/RestaurantMenu.vue"
+
 export default {
+
+  components:{
+    RestaurantMenu
+  },
   data() {
     return {
       profile_accessed: undefined,
@@ -131,12 +138,11 @@ export default {
             phone_number: this.$refs[`phone_number`][`value`],
             profile_url: this.$refs[`profile_url`][`value`],
             banner_url: this.$refs[`banner_url`][`value`],
-           
           },
         })
         .then((res) => {
           res;
-          alert(`Success`)
+          alert(`Success`);
         })
         .catch((err) => {
           err;
