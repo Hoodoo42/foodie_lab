@@ -3,7 +3,8 @@ import VueRouter from "vue-router";
 
 import LandingPage from "@/views/LandingPage";
 import RestaurantList from "@/views/RestaurantList";
-import RestaurantHome from "@/views/RestaurantHome"
+import RestaurantHome from "@/views/RestaurantHome";
+import TheMenu from "@/views/TheMenu";
 
 Vue.use(VueRouter);
 
@@ -18,8 +19,12 @@ const routes = [
   },
   {
     path: "/Restaurant",
-    component: RestaurantHome
-  }
+    component: RestaurantHome,
+  },
+  {
+    path: "/Menu",
+    component: TheMenu,
+  },
 ];
 
 const router = new VueRouter({

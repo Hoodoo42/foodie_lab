@@ -8,7 +8,7 @@
       <p>Item Name:</p>
       <input ref="name" type="text" name="name" />
       <p>Price:</p>
-      <input ref="price" type="text" name="price" />
+      <input ref="price" type="number" name="price" />
       <p>Description:</p>
       <input ref="description" type="text" name="description" />
       <button @click="add_item">Add Menu Item</button>
@@ -23,6 +23,7 @@ export default {
   data() {
     return {
       menu: false,
+ 
     };
   },
 
@@ -32,29 +33,51 @@ export default {
     },
 
     add_item() {
-      let access_id = cookies.get(`restaurant_id`);
-
+         let access_token = cookies.get(`restaurant_token`);
+      
       axios
         .request({
           url: `https://innotechfoodie.ml/api/menu`,
           headers: {
             "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
-            token: access_id,
+            token: access_token,
           },
           method: `POST`,
 
           data: {
-            description: this.$refs[`description`],
-            image_url: this.$refs[`image`],
-            name: this.$refs[`name`],
-            price: this.$refs[`price`]
+            description: this.$refs[`description`][`value`],
+            image_url: this.$refs[`image`][`value`],
+            name: this.$refs[`name`][`value`],
+            price: +this.$refs[`price`][`value`]
           },
         })
         .then((res) => {
           res;
+        alert(`successfully added new menu item!`)
+        
+            let access_id = cookies.get(`restaurant_id`);
+          axios
+            .request({
+              url: `https://innotechfoodie.ml/api/menu`,
+              headers: {
+                "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
+              },
+             params:{
+              restaurant_id: access_id
+             }
+            })
+            .then((res) => {
+              res;
+              
+              
+            })
+            .catch((err) => {
+              err;
+            });
         })
         .catch((err) => {
           err;
+        
         });
     },
   },
