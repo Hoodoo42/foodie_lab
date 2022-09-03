@@ -3,6 +3,11 @@
     <button @click="show_menu">Menu</button>
 
     <div v-if="menu">
+      <div ref="menu_card" v-for="info in existing_menu" :key="info[`id`]">
+        <h3>{{ info[`name`] }}</h3>
+        <h4>{{ info[`price`] }}</h4>
+        <h3>{{ info[`description`] }}</h3>
+      </div>
       <p>Image:</p>
       <input ref="image" type="text" name="image_url" />
       <p>Item Name:</p>
@@ -23,18 +28,37 @@ export default {
   data() {
     return {
       menu: false,
- 
+      existing_menu: undefined,
     };
   },
 
   methods: {
     show_menu() {
+      let access_id = cookies.get(`restaurant_id`);
       this.menu = true;
+
+      axios
+        .request({
+          url: `https://innotechfoodie.ml/api/menu`,
+          headers: {
+            "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
+          },
+          params: {
+            restaurant_id: access_id,
+          },
+        })
+        .then((res) => {
+          res;
+          this.existing_menu = res[`data`];
+        })
+        .catch((err) => {
+          err;
+        });
     },
 
     add_item() {
-         let access_token = cookies.get(`restaurant_token`);
-      
+      let access_token = cookies.get(`restaurant_token`);
+
       axios
         .request({
           url: `https://innotechfoodie.ml/api/menu`,
@@ -48,36 +72,12 @@ export default {
             description: this.$refs[`description`][`value`],
             image_url: this.$refs[`image`][`value`],
             name: this.$refs[`name`][`value`],
-            price: +this.$refs[`price`][`value`]
+            price: +this.$refs[`price`][`value`],
           },
         })
         .then((res) => {
           res;
-        alert(`successfully added new menu item!`)
-        
-            let access_id = cookies.get(`restaurant_id`);
-          axios
-            .request({
-              url: `https://innotechfoodie.ml/api/menu`,
-              headers: {
-                "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
-              },
-             params:{
-              restaurant_id: access_id
-             }
-            })
-            .then((res) => {
-              res;
-              
-              
-            })
-            .catch((err) => {
-              err;
-            });
-        })
-        .catch((err) => {
-          err;
-        
+          alert(`successfully added new menu item!`);
         });
     },
   },
@@ -85,4 +85,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 </style>
