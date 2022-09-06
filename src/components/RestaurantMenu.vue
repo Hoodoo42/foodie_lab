@@ -7,28 +7,60 @@
           <img :src="info[`image_url`]" alt="" />
           <h4>{{ info[`price`] }}</h4>
           <h3>{{ info[`description`] }}</h3>
-          <button @click="edit_item(info[`id`])">Edit Item</button>
+          <button @click="edit_item(info)">Edit Item</button>
         </article>
+   
       </div>
 
-      <div v-if="edit">
-        <article v-for="item in existing_menu" :key="item[`id`]">
-          <input ref="name" type="name" name="name" :value="item[`name`]" />
+
+      <div class="edit" v-if="edit">
+        <article>
+          <label for="name">Name:</label>
+          <input
+            ref="name"
+            type="name"
+            name="name"
+            :value="edit_cookie[`name`]"
+          />
+
+          <label for="image">Image:</label>
+          <input
+            ref="image_url"
+            type="url"
+            name="image"
+            :value="edit_cookie[`image_url`]"
+          />
+
+          <label for="price">Price:</label>
+          <input
+            ref="price"
+            type="number"
+            name="price"
+            :value="edit_cookie[`price`]"
+          />
+
+          <label for="descrition">Description:</label>
+          <input
+            ref="description"
+            type="text"
+            name="description"
+            :value="edit_cookie[`description`]"
+          />
         </article>
         <button @click="submit_edit">Submit Edit</button>
       </div>
 
-      <div ref="add_new">
-        <p>Image:</p>
-        <input ref="image" type="text" name="image_url" />
-        <p>Item Name:</p>
-        <input ref="name" type="text" name="name" />
-        <p>Price:</p>
-        <input ref="price" type="number" name="price" />
-        <p>Description:</p>
-        <input ref="description" type="text" name="description" />
-        <button @click="add_item">Add Menu Item</button>
-      </div>
+           <div v-if="menu" ref="add_new">
+          <p>Image:</p>
+          <input ref="image" type="text" name="image_url" />
+          <p>Item Name:</p>
+          <input ref="name" type="text" name="name" />
+          <p>Price:</p>
+          <input ref="price" type="number" name="price" />
+          <p>Description:</p>
+          <input ref="description" type="text" name="description" />
+          <button @click="add_item">Add Menu Item</button>
+        </div>
     </div>
   </div>
 </template>
@@ -73,11 +105,11 @@ export default {
         });
     },
 
-    edit_item(item_id) {
+    edit_item(item) {
       this.edit = true;
       this.menu = false;
 
-      cookies.set(`chosen_item`, item_id),
+      cookies.set(`chosen_item`, item),
         (this.edit_cookie = cookies.get(`chosen_item`));
     },
 
@@ -139,5 +171,9 @@ export default {
 img {
   width: 250px;
   height: 250px;
+}
+.edit {
+  display: grid;
+  place-items: center;
 }
 </style>
