@@ -1,9 +1,6 @@
 <template>
-  <div>
-    <button @click="access_profile">Profile</button>
-    <restaurant-menu></restaurant-menu>
-
-    <div v-if="profile_accessed">
+  <div ref="container">
+    <div>
       <article>
         <label for="name">Name:</label>
         <input ref="name" type="name" name="name" :value="profile[`name`]" />
@@ -70,6 +67,7 @@
         <br />
       </article>
       <button @click="edit_button">Edit Profile</button>
+      <button @click="delete_restaurant">Delete Account</button>
     </div>
   </div>
 </template>
@@ -78,46 +76,14 @@
 import axios from "axios";
 import cookies from "vue-cookies";
 
-import RestaurantMenu from "@/components/RestaurantMenu.vue"
-
 export default {
-
-  components:{
-    RestaurantMenu
-  },
   data() {
     return {
-      profile_accessed: undefined,
-
       profile: [],
     };
   },
 
   methods: {
-    access_profile() {
-      this.profile_accessed = true;
-
-      let access_id = cookies.get(`restaurant_id`);
-
-      axios
-        .request({
-          url: `https://innotechfoodie.ml/api/restaurant`,
-          params: {
-            restaurant_id: access_id,
-          },
-          headers: {
-            "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
-          },
-        })
-        .then((res) => {
-          res;
-          this.profile = res[`data`][0];
-        })
-        .catch((err) => {
-          err;
-        });
-    },
-
     edit_button() {
       let access_token = cookies.get(`restaurant_token`);
       axios
@@ -148,6 +114,47 @@ export default {
           err;
         });
     },
+
+    delete_restaurant() {
+      let access_token = cookies.get(`restaurant_token`);
+      axios
+        .request({
+          url: `https://innotechfoodie.ml/api/restaurant-login`,
+          headers: {
+            "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
+            token: access_token,
+          },
+        })
+        .catch((res) => {
+          res;
+        })
+        .catch((err) => {
+          err;
+        });
+    },
+  },
+  mounted() {
+    
+
+    let access_id = cookies.get(`restaurant_id`);
+
+    axios
+      .request({
+        url: `https://innotechfoodie.ml/api/restaurant`,
+        params: {
+          restaurant_id: access_id,
+        },
+        headers: {
+          "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
+        },
+      })
+      .then((res) => {
+        res;
+        this.profile = res[`data`][0];
+      })
+      .catch((err) => {
+        err;
+      });
   },
 };
 </script>

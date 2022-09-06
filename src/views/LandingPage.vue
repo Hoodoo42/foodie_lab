@@ -5,6 +5,7 @@
 <template>
   <div>
     <!-- buttons that will toggle between the client side and restaurant side of login or signup -->
+
     <button @click="foodie_side">Foodie</button>
     <button @click="feeder_side">Foodie Feeder</button>
     <br />
