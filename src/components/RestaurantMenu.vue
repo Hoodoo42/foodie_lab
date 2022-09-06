@@ -2,20 +2,33 @@
   <div>
     <div>
       <div class="menu_card" v-for="info in existing_menu" :key="info[`id`]">
-        <h3>{{ info[`name`] }}</h3>
-        <img :src="info[`image_url`]" alt="" />
-        <h4>{{ info[`price`] }}</h4>
-        <h3>{{ info[`description`] }}</h3>
+        <article v-if="menu">
+          <h3>{{ info[`name`] }}</h3>
+          <img :src="info[`image_url`]" alt="" />
+          <h4>{{ info[`price`] }}</h4>
+          <h3>{{ info[`description`] }}</h3>
+          <button @click="edit_item(info[`id`])">Edit Item</button>
+        </article>
       </div>
-      <p>Image:</p>
-      <input ref="image" type="text" name="image_url" />
-      <p>Item Name:</p>
-      <input ref="name" type="text" name="name" />
-      <p>Price:</p>
-      <input ref="price" type="number" name="price" />
-      <p>Description:</p>
-      <input ref="description" type="text" name="description" />
-      <button @click="add_item">Add Menu Item</button>
+
+      <div v-if="edit">
+        <article v-for="item in edit_cookie" :key="item[`id`]" >
+        <input ref="name" type="name" name="name" :value="item[`name`]" />
+        </article>
+        <button @click="submit_edit">Submit Edit</button>
+      </div>
+
+      <div ref="add_new">
+        <p>Image:</p>
+        <input ref="image" type="text" name="image_url" />
+        <p>Item Name:</p>
+        <input ref="name" type="text" name="name" />
+        <p>Price:</p>
+        <input ref="price" type="number" name="price" />
+        <p>Description:</p>
+        <input ref="description" type="text" name="description" />
+        <button @click="add_item">Add Menu Item</button>
+      </div>
     </div>
   </div>
 </template>
@@ -27,6 +40,10 @@ export default {
   data() {
     return {
       existing_menu: undefined,
+      menu: true,
+      edit: undefined,
+
+      edit_cookie: undefined
     };
   },
 
@@ -53,6 +70,41 @@ export default {
         .then((res) => {
           res;
           alert(`successfully added new menu item!`);
+        });
+    },
+
+    edit_item(item_id) {
+      this.edit = true;
+      this.menu = false;
+
+      cookies.set(`chosen_item`, item_id),
+     this.edit_cookie = cookies.get(`chosen_item`)
+
+
+    },
+
+    submit_edit() {
+      axios
+        .request({
+          url: `https://innotechfoodie.ml/api/menu`,
+          headers: {
+            "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
+            token: this.access_token,
+          },
+          method: `PATCH`,
+
+          data: {
+            // description: string,
+            // image_url: string,
+            name: this.$refs[`name`][`value`],
+            // price: number,
+          },
+        })
+        .then((res) => {
+          res;
+        })
+        .catch((err) => {
+          err;
         });
     },
   },
