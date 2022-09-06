@@ -12,8 +12,8 @@
       </div>
 
       <div v-if="edit">
-        <article v-for="item in edit_cookie" :key="item[`id`]" >
-        <input ref="name" type="name" name="name" :value="item[`name`]" />
+        <article v-for="item in existing_menu" :key="item[`id`]">
+          <input ref="name" type="name" name="name" :value="item[`name`]" />
         </article>
         <button @click="submit_edit">Submit Edit</button>
       </div>
@@ -43,7 +43,7 @@ export default {
       menu: true,
       edit: undefined,
 
-      edit_cookie: undefined
+      edit_cookie: undefined,
     };
   },
 
@@ -78,9 +78,7 @@ export default {
       this.menu = false;
 
       cookies.set(`chosen_item`, item_id),
-     this.edit_cookie = cookies.get(`chosen_item`)
-
-
+        (this.edit_cookie = cookies.get(`chosen_item`));
     },
 
     submit_edit() {
