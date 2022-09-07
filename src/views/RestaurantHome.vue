@@ -3,6 +3,7 @@
     <h3>Welcome</h3>
     <button @click="access_profile">Profile</button>
     <button @click="show_menu">Menu</button>
+    <button @click="other_restaurants">Foody Lab Restaurants</button>
 
     <restaurant-profile v-if="profile_accessed"></restaurant-profile>
     <restaurant-menu v-if="menu"></restaurant-menu>

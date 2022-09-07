@@ -174,11 +174,12 @@ export default {
     axios
       .request({
         url: `https://innotechfoodie.ml/api/restaurant`,
-        params: {
-          restaurant_id: access_id,
-        },
+
         headers: {
           "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
+        },
+        params: {
+          restaurant_id: access_id,
         },
       })
       .then((res) => {

@@ -33,7 +33,8 @@ export default {
         .then((res) => {
           res;
           cookies.set(`client_token`, res[`data`][`token`]);
-          this.$router.push(`/list`);
+          cookies.set(`client_id`, res[`data`][0][`client_id`]);
+          this.$router.push(`/Home`);
         })
         .catch((err) => {
           err;

@@ -54,7 +54,9 @@ export default {
           res;
           // cookies.set will name the cookie and hold the token value provided from the axios request
           cookies.set(`client_token`, res[`data`][`token`]);
-          this.$router.push(`/list`);
+          cookies.set(`client_id`, res[`data`][`client_id`]);
+
+          this.$router.push(`/Home`);
         })
         .catch((err) => {
           err;
