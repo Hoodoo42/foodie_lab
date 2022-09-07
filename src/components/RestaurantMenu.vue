@@ -11,7 +11,7 @@
         </article>
       </div>
 
-      <menu-edit v-if="edit"></menu-edit>
+      <restaurant-menu-edit v-if="edit"></restaurant-menu-edit>
 
       <div v-if="menu" ref="add_new">
         <p>Image:</p>
@@ -31,11 +31,11 @@
 <script>
 import axios from "axios";
 import cookies from "vue-cookies";
-import MenuEdit from "@/components/MenuEdit.vue";
+import RestaurantMenuEdit from "@/components/RestaurantMenuEdit.vue";
 
 export default {
   components: {
-    MenuEdit,
+    RestaurantMenuEdit,
   },
 
   data() {

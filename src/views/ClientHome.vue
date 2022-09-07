@@ -1,5 +1,6 @@
 <template>
   <div>
+      
     <button @click="open_profile">Profile</button>
 
     <client-profile v-if="profile"></client-profile>
