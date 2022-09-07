@@ -57,17 +57,18 @@
           :value="profile[`banner_url`]"
         />
 
-        <label for="password">Password:</label>
-        <input
-          ref="password"
-          type="password"
-          name="password"
-          :value="profile[`password`]"
-        />
         <br />
       </article>
       <button @click="edit_button">Edit Profile</button>
+      <button @click="logout_button">Logout</button>
       <button @click="delete_restaurant">Delete Account</button>
+
+      <div v-if="delete_button">
+        <p>Are you sure you want to delete your account?</p>
+        <label for="password">Password:</label>
+        <input ref="password" type="password" name="password" />
+        <button @click="confirm_delete">Yes I am sure</button>
+      </div>
     </div>
   </div>
 </template>
@@ -80,6 +81,7 @@ export default {
   data() {
     return {
       profile: [],
+      delete_button: false,
     };
   },
 
@@ -115,7 +117,7 @@ export default {
         });
     },
 
-    delete_restaurant() {
+    logout_button() {
       let access_token = cookies.get(`restaurant_token`);
       axios
         .request({
@@ -124,9 +126,42 @@ export default {
             "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
             token: access_token,
           },
+          method: `DELETE`,
         })
         .catch((res) => {
           res;
+          alert(`Account Succesfully Logged Out!`);
+
+          this.$router.push(`/`);
+        })
+        .catch((err) => {
+          err;
+        });
+    },
+
+    delete_restaurant() {
+      this.delete_button = true;
+    },
+    confirm_delete() {
+      let access_token = cookies.get(`restaurant_token`);
+      axios
+        .request({
+          url: `https://innotechfoodie.ml/api/restaurant`,
+          headers: {
+            "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
+            token: access_token,
+          },
+          method: `DELETE`,
+
+          data: {
+            password: this.$refs[`password`][`value`],
+          },
+        })
+        .catch((res) => {
+          res;
+          alert(`Account Succesfully Deleted!`);
+
+          this.$router.push(`/`);
         })
         .catch((err) => {
           err;
@@ -134,8 +169,6 @@ export default {
     },
   },
   mounted() {
-    
-
     let access_id = cookies.get(`restaurant_id`);
 
     axios

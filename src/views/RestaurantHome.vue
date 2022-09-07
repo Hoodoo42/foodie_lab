@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       profile_accessed: undefined,
-      menu: false,
+      menu: undefined,
 
       restaurant_deets: undefined,
     };
