@@ -38,6 +38,7 @@ export default {
         })
         .catch((err) => {
           err;
+          alert(`Login info was incorrect, please sign up or try again`)
         });
     },
   },

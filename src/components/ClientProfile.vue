@@ -27,47 +27,58 @@
     <input ref="image" type="url" name="image" :value="profile[`image_url`]" />
 
     <button @click="edit_button">Edit Profile</button>
+    <button @click="open_delete">Delete Account</button>
+    <client-delete v-if="delete_open"></client-delete>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import cookies from "vue-cookies";
+
+import ClientDelete from "@/components/ClientDelete.vue";
 export default {
+  components: {
+    ClientDelete,
+  },
+
   data() {
     return {
       profile: undefined,
+      delete_open: undefined,
     };
   },
 
-methods:{
-  edit_button() {
-    let access_token = cookies.get(`client_token`);
-    axios
-      .request({
-        url: ` https://innotechfoodie.ml/api/client`,
-        headers: {
-          "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
-          token: access_token,
-        },
-        method: `PATCH`,
-        data: {
-          email: this.$refs[`email`][`value`],
-          first_name: this.$refs[`name`][`value`],
-          last_name: this.$refs[`last_name`][`value`],
-          image_url: this.$refs[`image`][`value`],
-          username: this.$refs[`username`][`value`],
-        
-        },
-      })
-      .then((res) => {
-        res;
-      })
-      .catch((err) => {
-        err;
-      });
+  methods: {
+    edit_button() {
+      let access_token = cookies.get(`client_token`);
+      axios
+        .request({
+          url: ` https://innotechfoodie.ml/api/client`,
+          headers: {
+            "x-api-key": "ZKmQmvzJKfctNlIVXzeU",
+            token: access_token,
+          },
+          method: `PATCH`,
+          data: {
+            email: this.$refs[`email`][`value`],
+            first_name: this.$refs[`name`][`value`],
+            last_name: this.$refs[`last_name`][`value`],
+            image_url: this.$refs[`image`][`value`],
+            username: this.$refs[`username`][`value`],
+          },
+        })
+        .then((res) => {
+          res;
+        })
+        .catch((err) => {
+          err;
+        });
+    },
+    open_delete() {
+      this.delete_open = true;
+    },
   },
-},
 
   created() {
     let unique_client = cookies.get(`client_id`);
