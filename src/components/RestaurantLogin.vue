@@ -1,3 +1,4 @@
+// same process from client login.
 <template>
   <div>
     <article>
@@ -29,6 +30,7 @@ export default {
             password: this.$refs[`password`][`value`],
           },
         })
+        // the restaurant destination takes them to their restaurant home page
         .then((res) => {
           res;
 

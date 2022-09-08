@@ -1,3 +1,5 @@
+// This component I would like to go through and break into smaller components.
+
 <template>
   <div ref="container">
     <div>
@@ -84,7 +86,7 @@ export default {
       delete_button: false,
     };
   },
-
+  // edit button sends the users new input to overwrite the last input of profile info
   methods: {
     edit_button() {
       let access_token = cookies.get(`restaurant_token`);
@@ -96,7 +98,7 @@ export default {
             token: access_token,
           },
           method: `PATCH`,
-
+          // sending the data that is bound to the html
           data: {
             email: this.$refs[`email`][`value`],
             name: this.$refs[`name`][`value`],
@@ -116,7 +118,7 @@ export default {
           err;
         });
     },
-
+    // logout button send a delete request through restaurant login which will only delete the token, not the profile
     logout_button() {
       let access_token = cookies.get(`restaurant_token`);
       axios
@@ -131,14 +133,15 @@ export default {
         .catch((res) => {
           res;
           alert(`Account Succesfully Logged Out!`);
-
+          // sends user back to login/signup
           this.$router.push(`/`);
         })
         .catch((err) => {
           err;
         });
     },
-
+    // delete restaurant opens up a safegaurd "are you sure" question
+    // confirm_delete send the axios to delete entire profile
     delete_restaurant() {
       this.delete_button = true;
     },
@@ -168,6 +171,7 @@ export default {
         });
     },
   },
+  // mounted grabs the cookie with restaurant id and gets all the info on the restaurant to display the profile info
   mounted() {
     let access_id = cookies.get(`restaurant_id`);
 

@@ -1,3 +1,4 @@
+// this component is the list of availbale restaurants. Click thier name and be taken to the individual restaurants menu and info page
 <template>
   <div>
     <h3>Welcome</h3>
@@ -5,7 +6,11 @@
     <!-- using that information to display just the chosen restaurants name. This is done by binding the individuals id within the loop.
    So when the restaurant name is clicked its info is  identified and is able to be used-->
     <h3
-      v-for="restaurant in restaurants" :key="restaurant[`restaurant_id`]" @click="send_to_menu(restaurant[`restaurant_id`])" >{{ restaurant[`name`] }}
+      v-for="restaurant in restaurants"
+      :key="restaurant[`restaurant_id`]"
+      @click="send_to_menu(restaurant[`restaurant_id`])"
+    >
+      {{ restaurant[`name`] }}
     </h3>
   </div>
 </template>
@@ -20,8 +25,8 @@ export default {
       restaurants: undefined,
     };
   },
-// in this function, it is created by the @click, and the @click can send information. ^^ "@click="function_name[info[`to_send`]]"
-// and then that info in this case being the restaurant_id has been past to the cookie value. 
+  // in this function, it is created by the @click, and the @click can send information. ^^ "@click="function_name[info[`to_send`]]"
+  // and then that info in this case being the restaurant_id has been past to the cookie value.
   methods: {
     send_to_menu(info) {
       cookies.set(`chosen_id`, info);

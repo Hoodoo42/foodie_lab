@@ -1,5 +1,8 @@
 <template>
   <div>
+    <!-- this section will show the client their profile in a way that is easy access to edit capabilities
+    these inputs are binded to the information that was sent back from a request to autofil the clients previous 
+    response to the form questions -->
     <img :src="profile[`image_url`]" alt="" />
     <label for="name">Name:</label>
     <input ref="name" type="name" name="name" :value="profile[`first_name`]" />
@@ -35,7 +38,7 @@
 <script>
 import axios from "axios";
 import cookies from "vue-cookies";
-
+// importing clientDelete to use that component is displayed with a conditional
 import ClientDelete from "@/components/ClientDelete.vue";
 export default {
   components: {
@@ -50,6 +53,7 @@ export default {
   },
 
   methods: {
+    // using a patch request so client can use above form to change any or all of the provided details.
     edit_button() {
       let access_token = cookies.get(`client_token`);
       axios
@@ -61,6 +65,7 @@ export default {
           },
           method: `PATCH`,
           data: {
+            // this is the data that will be sent to the reuest, and will replace the data in the html
             email: this.$refs[`email`][`value`],
             first_name: this.$refs[`name`][`value`],
             last_name: this.$refs[`last_name`][`value`],
@@ -79,7 +84,8 @@ export default {
       this.delete_open = true;
     },
   },
-
+  // on created the page will have prepared the client info using the clients unique id, to make sure the proper data
+  // is dosplayed through the html
   created() {
     let unique_client = cookies.get(`client_id`);
     axios

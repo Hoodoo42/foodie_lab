@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- this is the form that will display for client side logn -->
     <label for="email">Email:</label>
     <input ref="email" type="email" name="email" /><br />
 
@@ -15,6 +16,7 @@ import axios from "axios";
 import cookies from "vue-cookies";
 export default {
   methods: {
+    // using a post request to send the users input to the API which will return a unique id and token
     login_button() {
       axios
         .request({
@@ -29,7 +31,8 @@ export default {
             password: this.$refs[`password`][`value`],
           },
         })
-
+        // in the success the token and id are saved in cookies to be used later
+        // the client is sent to client home page
         .then((res) => {
           res;
           cookies.set(`client_token`, res[`data`][`token`]);
@@ -38,7 +41,7 @@ export default {
         })
         .catch((err) => {
           err;
-          alert(`Login info was incorrect, please sign up or try again`)
+          alert(`Login info was incorrect, please sign up or try again`);
         });
     },
   },

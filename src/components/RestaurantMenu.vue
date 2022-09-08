@@ -1,6 +1,8 @@
 <template>
   <div>
     <div>
+      <!-- once a restaurant creates a menu item info is saved in a cookie, gathered in this component and displayed through this html
+      it is looping through the info in the existing_menu bound by the individual items id, and displays each item -->
       <div class="menu_card" v-for="info in existing_menu" :key="info[`id`]">
         <article v-if="menu">
           <h3>{{ info[`name`] }}</h3>
@@ -8,11 +10,12 @@
           <h4>{{ info[`price`] }}</h4>
           <h3>{{ info[`description`] }}</h3>
           <button @click="edit_item(info)">Edit Item</button>
+          <button @click="access_delete(info[`id`])">Delete Item</button>
         </article>
       </div>
-
+      <restaurant-menu-delete></restaurant-menu-delete>
       <restaurant-menu-edit v-if="edit"></restaurant-menu-edit>
-
+      <!-- this is a blank form to allow restaurants to add new items -->
       <div v-if="menu" ref="add_new">
         <p>Image:</p>
         <input ref="image" type="text" name="image_url" />
@@ -31,11 +34,14 @@
 <script>
 import axios from "axios";
 import cookies from "vue-cookies";
+
 import RestaurantMenuEdit from "@/components/RestaurantMenuEdit.vue";
+import RestaurantMenuDelete from "@/components/RestaurantMenuDelete.vue";
 
 export default {
   components: {
     RestaurantMenuEdit,
+    RestaurantMenuDelete,
   },
 
   data() {
@@ -43,10 +49,10 @@ export default {
       existing_menu: undefined,
       menu: true,
       edit: undefined,
-
+      deleting: undefined,
     };
   },
-
+  // adding a new item will then display through the above html
   methods: {
     add_item() {
       let access_token = cookies.get(`restaurant_token`);
@@ -82,8 +88,15 @@ export default {
 
       cookies.set(`chosen_item`, item);
     },
-  },
 
+    access_delete(item_id) {
+      this.deleting = true;
+      // cookies.set(`chosen_item_id`, item_id);
+      this.$root.$emit(`delete_menu_item`, item_id);
+    },
+  },
+  // on mounted the restaurant id is brought in from cookie jar so that the proper items are being displayed, and not from any
+  // other restaurant
   mounted() {
     let access_id = cookies.get(`restaurant_id`);
 
@@ -97,6 +110,7 @@ export default {
           restaurant_id: access_id,
         },
       })
+      // this is where the data is brought in from that is being looped through in the html
       .then((res) => {
         res;
         this.existing_menu = res[`data`];

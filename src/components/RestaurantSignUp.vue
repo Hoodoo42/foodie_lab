@@ -1,5 +1,6 @@
 // this holds the signup for for restaurants
-
+// restaurant sign up uses a post request to add a new account.
+// it will save the returned data id/token in cookies and send user to restaurant home page
 <template>
   <div>
     <article>

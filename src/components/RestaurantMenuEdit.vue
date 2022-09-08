@@ -1,6 +1,8 @@
 <template>
   <div>
     <div class="edit">
+      <!-- the form is bound to data that was already input by the user
+      user can overwrite the info with new info -->
       <article>
         <label for="name">Name:</label>
         <input ref="name" type="name" name="name" :value="edit_item[`name`]" />
@@ -29,6 +31,7 @@
           :value="edit_item[`description`]"
         />
       </article>
+      <!-- clicking this will send an axios request with the new data to overwrite -->
       <button @click="submit_edit">Submit Edit</button>
     </div>
   </div>
@@ -61,8 +64,7 @@ export default {
             image_url: this.$refs[`image`][`value`],
             name: this.$refs[`name`][`value`],
             price: this.$refs[`price`][`value`],
-            menu_id: this.edit_item[`id`]
-
+            menu_id: this.edit_item[`id`],
           },
         })
         .then((res) => {
@@ -73,10 +75,10 @@ export default {
         });
     },
   },
-
+  // on create will have which item was clicked to be edited
   created() {
     let edit_item_info = cookies.get(`chosen_item`);
-    this.edit_item = edit_item_info
+    this.edit_item = edit_item_info;
   },
 };
 </script>

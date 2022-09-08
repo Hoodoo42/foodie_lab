@@ -1,4 +1,4 @@
-// signup template is holding the inout sections for the user to fill out thier information, that will be used to save their info in a cookie
+// signup template is holding the input sections for the user to fill out thier information, that will be used to save their info in a cookie
 // allowing them to enter the site with their unique information
 <template>
   <div>
